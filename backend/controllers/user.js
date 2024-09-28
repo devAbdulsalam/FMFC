@@ -119,6 +119,14 @@ export const getUsers = async (req, res) => {
 		res.status(500).send(err.message);
 	}
 };
+export const getAdmins = async (req, res) => {
+	try {
+		const data = await User.find({ role: 'ADMIN' });
+		res.json(data);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+};
 export const getUserDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;

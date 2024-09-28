@@ -9,6 +9,7 @@ import {
 	getUserDashboard,
 	getUsers,
 	getUser,
+	getAdmins,
 } from '../controllers/user.js';
 import auth, { verifyPermission } from '../middlewares/auth.js';
 
@@ -25,5 +26,6 @@ router.get(
 	getAdminDashboard
 );
 router.get('/', auth, getUsers);
+router.get('/admins', auth, getAdmins);
 
 export default router;
