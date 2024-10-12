@@ -35,6 +35,8 @@ const Register = () => {
 					title: 'Registration successful',
 					icon: 'success',
 					text: 'Log in to continue',
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
 				});
 
 				navigate('/login');
@@ -49,6 +51,8 @@ const Register = () => {
 				title: 'Error!',
 				icon: 'error',
 				text: message,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
 			});
 		}
 	};

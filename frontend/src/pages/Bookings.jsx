@@ -1,6 +1,6 @@
 // import React from 'react'
 import { useQuery } from '@tanstack/react-query';
-import { fetchOrders } from '../hooks/axiosApis';
+import { fetchBookings } from '../hooks/axiosApis';
 // import getHighestPriceItem from '../hooks/getHighestPriceItem';
 import { Fragment, useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/authContext';
@@ -18,9 +18,10 @@ const Order = () => {
 	// const navigate = useNavigate();
 	const [search, setSearch] = useState();
 	const [orders, setOrders] = useState('');
-	const { data, isLoading, error } = useQuery(['orders'], async () =>
-		fetchOrders(user)
-	);
+	const { data, isLoading, error } = useQuery({
+		queryKey: ['bookings'],
+		queryFn: async () => fetchBookings(user),
+	});
 	useEffect(() => {
 		if (data && data.length > 0) {
 			setOrders(data);
@@ -123,7 +124,7 @@ const Order = () => {
 			<div className="body-content px-8 py-8 bg-slate-100">
 				<div className="flex justify-between mb-10">
 					<div className="page-title">
-						<h3 className="mb-0 text-[28px]">Orders</h3>
+						<h3 className="mb-0 text-[28px]">Bookings</h3>
 						<ul className="text-tiny font-medium flex items-center space-x-3 text-text3">
 							<li className="breadcrumb-item text-muted">
 								<Link to={'./'} className="text-hover-primary">
@@ -133,7 +134,7 @@ const Order = () => {
 							<li className="breadcrumb-item flex items-center">
 								<span className="inline-block bg-text3/60 w-[4px] h-[4px] rounded-full"></span>
 							</li>
-							<li className="breadcrumb-item text-muted">Order List</li>
+							<li className="breadcrumb-item text-muted">Bookings</li>
 						</ul>
 					</div>
 				</div>
@@ -145,7 +146,7 @@ const Order = () => {
 							<input
 								className="input h-[44px] w-full pl-14"
 								type="text"
-								placeholder="Search by product name"
+								placeholder="Search by field name"
 								value={search}
 								onChange={(e) => setSearch(e.target.value)}
 							/>
@@ -185,14 +186,11 @@ const Order = () => {
 								<select>
 									<option>Active</option>
 									<option>In Active</option>
-									<option>Scheduled</option>
-									<option>Low Stock</option>
-									<option>Out of Stock</option>
 								</select>
 							</div>
 							<div className="product-add-btn flex ">
-								<Link to={'/add-product'} className="tp-btn">
-									Add Product
+								<Link to={'/add-field'} className="tp-btn">
+									Add Field
 								</Link>
 							</div>
 						</div>
@@ -214,19 +212,25 @@ const Order = () => {
 										scope="col"
 										className="pr-8 py-3 text-tiny text-text2 uppercase font-semibold"
 									>
-										Product
+										Name
 									</th>
 									<th
 										scope="col"
 										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
 									>
-										SKU
+										Days
 									</th>
 									<th
 										scope="col"
 										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
 									>
-										QTY
+										StartDate
+									</th>
+									<th
+										scope="col"
+										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
+									>
+										EndDate
 									</th>
 									<th
 										scope="col"
@@ -238,7 +242,7 @@ const Order = () => {
 										scope="col"
 										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
 									>
-										Rating
+										Ratings
 									</th>
 									<th
 										scope="col"
@@ -279,7 +283,7 @@ const Order = () => {
 															// alt={highestPriceItem?.name}
 														/>
 														<span className="font-medium text-heading text-hover-primary transition">
-															{order.name || order.firstName}
+															{order.name}
 														</span>
 													</Link>
 												</td>
@@ -287,10 +291,13 @@ const Order = () => {
 													#{order._id.slice(-6)}
 												</td>
 												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
-													{order?.cart?.length}
+													{order?.days}
 												</td>
 												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
-													${order.totalPrice}
+													${order.startTime}
+												</td>
+												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
+													${order?.endTime}
 												</td>
 												<td className="px-3 py-3 font-normal text-heading text-end">
 													<div className="flex justify-end items-center space-x-1 text-tiny">

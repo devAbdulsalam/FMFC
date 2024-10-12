@@ -8,7 +8,7 @@ import { LocalStorage } from '../hooks/LocalStorage';
 import AuthContext from '../context/authContext';
 import Swal from 'sweetalert2';
 import logo from '../assets/logo.jpg';
-import bgImage from '../assets/adust.png';
+import bgImage from '../assets/img1.jpg';
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -41,6 +41,8 @@ const Login = () => {
 				title: 'Login successfull',
 				icon: 'success',
 				text: 'Log in account successfully',
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
 			});
 		} catch (error) {
 			setLoading(false);
@@ -50,6 +52,8 @@ const Login = () => {
 				title: 'Error!',
 				icon: 'error',
 				text: message,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
 			});
 		}
 	};
@@ -60,7 +64,7 @@ const Login = () => {
 				<div className="4xl:max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
 					<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
 						<div>
-							<img src={logo} className="w-mx-auto h-32 mx-auto" />
+							{/* <img src={logo} className="w-mx-auto h-32 mx-auto" /> */}
 						</div>
 						<div className="mt-2 flex flex-col items-center">
 							<div className="w-full flex-1 mt-8">

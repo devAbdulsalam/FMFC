@@ -170,7 +170,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 											/>
 										</svg>
 									</span>
-									Buses
+									Fields
 									<span
 										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4" ${
 											nav == 1
@@ -196,20 +196,20 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									<ul className={`pl-[42px] pr-[20px] pb-3`}>
 										<li>
 											<NavLink
-												to={'/buses'}
+												to={'/fields'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>
-												Buses
+												Fields
 											</NavLink>
 										</li>
 										<li>
 											<NavLink
-												to={'/add-bus'}
+												to={'/add-field'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>
-												Add Bus
+												Add Field
 											</NavLink>
 										</li>
 									</ul>
@@ -325,7 +325,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									<ul className="pl-[42px] pr-[20px] pb-3">
 										<li>
 											<NavLink
-												to={'orders'}
+												to={'/bookings'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>
@@ -335,7 +335,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 
 										<li>
 											<NavLink
-												to={'transactions'}
+												to={'/transactions'}
 												onClick={handleSideBar}
 												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
 											>

@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import userRoutes from './routes/user.js';
+import fieldRoutes from './routes/field.js';
+import adminRoutes from './routes/admin.js';
 import orderRoutes from './routes/order.js';
 import reportRoutes from './routes/report.js';
 import productRoutes from './routes/product.js';
@@ -20,13 +22,12 @@ app.use(cors());
 
 app.use('/', healthRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/fields', fieldRoutes);
+app.use('/api/v1/admins', adminRoutes);
 app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/reports', reportRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/payments', paymentRoutes);
-
-
-
 
 const PORT = process.env.PORT || 5000;
 

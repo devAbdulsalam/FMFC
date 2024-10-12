@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
-	console.log(user);
 	// const navigate = useNavigate();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['dashboard'],
@@ -40,13 +39,17 @@ const Dashboard = () => {
 				<div className="flex justify-between items-end flex-wrap">
 					<div className="page-title mb-7">
 						<h3 className="mb-0 text-4xl">Dashboard</h3>
-						<p className="text-textBody m-0">Welcome to your dashboard</p>
+						<p className="text-textBody m-0">
+							Welcome to {user.role === 'ADMIN' ? 'Admin' : 'your'} dashboard
+						</p>
 					</div>
-					<div className=" mb-7">
-						<Link to={'/add-bus'} className="tp-btn px-5 py-2">
-							Add Bus
-						</Link>
-					</div>
+					{user.user.role === 'ADMIN' && (
+						<div className=" mb-7">
+							<Link to={'/add-field'} className="tp-btn px-5 py-2">
+								Add Field
+							</Link>
+						</div>
+					)}
 				</div>
 
 				{/* <!-- card --> */}
@@ -57,7 +60,7 @@ const Dashboard = () => {
 								{data?.totalbuses}
 								{/* 30 */}
 							</h4>
-							<p className="text-tiny leading-4">Buses</p>
+							<p className="text-tiny leading-4">Fields</p>
 							<div className="badge space-x-1">
 								{' '}
 								<span>
@@ -91,7 +94,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./buses">
+							<Link to="./fields">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-success">
 									<svg
 										width="20"
@@ -143,12 +146,11 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{data?.totaltrips}
-								{/* 15 */}
+								{data?.totalbookings}
 							</h4>
-							<p className="text-tiny leading-4">Trips</p>
+							<p className="text-tiny leading-4">Bookings</p>
 							<div className="badge space-x-1 text-purple bg-purple/10">
-								<span>{data?.totalAssets || '30'}</span>
+								<span>{data?.totalbookings || '30'}</span>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									x="0px"
@@ -173,7 +175,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./assets">
+							<Link to="./bookings">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-purple">
 									<svg
 										width="20"
@@ -247,7 +249,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./customers">
+							<Link to="./users">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-info">
 									<svg
 										width="22"
@@ -301,88 +303,6 @@ const Dashboard = () => {
 									</svg>
 								</span>
 							</Link>
-						</div>
-					</div>
-					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
-						<div>
-							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{data?.totalbookings}
-								{/* 200 */}
-							</h4>
-							<p className="text-tiny leading-4">Bookings</p>
-							<div className="badge space-x-1 text-warning bg-warning/10">
-								<span> 4{/* {data?.pendingOrders} */}%</span>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									x="0px"
-									y="0px"
-									viewBox="0 0 512.001 512.001"
-									width="12"
-									height="12"
-								>
-									<path
-										fill="currentColor"
-										d="M506.35,80.699c-7.57-7.589-19.834-7.609-27.43-0.052L331.662,227.31l-42.557-42.557c-7.577-7.57-19.846-7.577-27.423,0 L89.076,357.36c-7.577,7.57-7.577,19.853,0,27.423c3.782,3.788,8.747,5.682,13.712,5.682c4.958,0,9.93-1.894,13.711-5.682 l158.895-158.888l42.531,42.524c7.57,7.57,19.808,7.577,27.397,0.032l160.97-160.323 C513.881,100.571,513.907,88.288,506.35,80.699z"
-									/>
-									<path
-										fill="currentColor"
-										d="M491.96,449.94H38.788V42.667c0-10.712-8.682-19.394-19.394-19.394S0,31.955,0,42.667v426.667 c0,10.712,8.682,19.394,19.394,19.394H491.96c10.712,0,19.394-8.682,19.394-19.394C511.354,458.622,502.672,449.94,491.96,449.94z"
-									/>
-									<path
-										fill="currentColor"
-										d="M492.606,74.344H347.152c-10.712,0-19.394,8.682-19.394,19.394s8.682,19.394,19.394,19.394h126.061v126.067 c0,10.705,8.682,19.394,19.394,19.394S512,249.904,512,239.192V93.738C512,83.026,503.318,74.344,492.606,74.344z"
-									/>
-								</svg>
-							</div>
-						</div>
-						<div>
-							<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-warning">
-								<svg
-									width="23"
-									height="22"
-									viewBox="0 0 23 22"
-									fill="none"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										d="M2.17004 6.43994L11 11.5499L19.77 6.46991"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-									<path
-										d="M11 20.6099V11.5399"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-									<path
-										d="M20.61 8.17V13.83C20.61 13.88 20.61 13.92 20.6 13.97C19.9 13.36 19 13 18 13C17.06 13 16.19 13.33 15.5 13.88C14.58 14.61 14 15.74 14 17C14 17.75 14.21 18.46 14.58 19.06C14.67 19.22 14.78 19.37 14.9 19.51L13.07 20.52C11.93 21.16 10.07 21.16 8.92999 20.52L3.59 17.56C2.38 16.89 1.39001 15.21 1.39001 13.83V8.17C1.39001 6.79 2.38 5.11002 3.59 4.44002L8.92999 1.48C10.07 0.84 11.93 0.84 13.07 1.48L18.41 4.44002C19.62 5.11002 20.61 6.79 20.61 8.17Z"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-									<path
-										d="M22 17C22 18.2 21.47 19.27 20.64 20C19.93 20.62 19.01 21 18 21C15.79 21 14 19.21 14 17C14 15.74 14.58 14.61 15.5 13.88C16.19 13.33 17.06 13 18 13C20.21 13 22 14.79 22 17Z"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeMiterlimit="10"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-									<path
-										d="M18.25 15.75V17.25L17 18"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeMiterlimit="10"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-								</svg>
-							</span>
 						</div>
 					</div>
 				</div>

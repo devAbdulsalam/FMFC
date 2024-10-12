@@ -31,36 +31,36 @@ export const fetchDashboard = async (user) => {
 				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
-		console.log()
-		const { data } = await axios.get(`${apiUrl}/users/admin/dashboard`, config);
+		console.log();
+		const { data } = await axios.get(`${apiUrl}/users/dashboard`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);
 		return error;
 	}
 };
-export const fetchBuses = async (user) => {
+export const fetchFields = async (user) => {
 	try {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
-		const { data } = await axios.get(`${apiUrl}/buses`, config);
+		const { data } = await axios.get(`${apiUrl}/fields`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);
 		return error;
 	}
 };
-export const fetchBus = async (props) => {
+export const fetchField = async (props) => {
 	try {
 		const config = {
 			headers: {
 				Authorization: `Bearer ${props?.token || props.accessToken}`,
 			},
 		};
-		const { data } = await axios.get(`${apiUrl}/buses/${props.id}`, config);
+		const { data } = await axios.get(`${apiUrl}/fields/${props.id}`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);
@@ -74,7 +74,7 @@ export const fetchBookings = async (user) => {
 				Authorization: `Bearer ${user?.token || user.accessToken}`,
 			},
 		};
-		const { data } = await axios.get(`${apiUrl}/buses`, config);
+		const { data } = await axios.get(`${apiUrl}/bookings`, config);
 		return data;
 	} catch (error) {
 		console.log(error.message);
@@ -89,6 +89,52 @@ export const fetchBooking = async (props) => {
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/buses/${props.id}`, config);
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return error;
+	}
+};
+
+export const fetchOrders = async (props) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${props?.token || props.accessToken}`,
+			},
+		};
+		const { data } = await axios.get(`${apiUrl}/orders/${props.id}`, config);
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return error;
+	}
+};
+export const fetchTransactions = async (props) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${props?.token || props.accessToken}`,
+			},
+		};
+		const { data } = await axios.get(`${apiUrl}/transactions`, config);
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return error;
+	}
+};
+export const fetchTransaction = async (props) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${props?.token || props.accessToken}`,
+			},
+		};
+		const { data } = await axios.get(
+			`${apiUrl}/transactions/${props.id}`,
+			config
+		);
 		return data;
 	} catch (error) {
 		console.log(error.message);

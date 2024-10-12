@@ -127,48 +127,49 @@ export const getAdmins = async (req, res) => {
 		res.status(500).send(err.message);
 	}
 };
-export const getUserDashboard = async (req, res) => {
+export const getDashboard = async (req, res) => {
 	try {
 		const userId = req.user._id;
-		const reports = await Report.find({ userId });
-		// get current date and get 5 trips closer to the date
-		const currentDate = new Date();
+		if (req.user.role !== 'ADMIN') {
+			const reports = await Report.find({ userId });
+			// get current date and get 5 trips closer to the date
+			const currentDate = new Date();
 
-		const products = await Product.find();
-		let result;
-		if (req.user.role === 'ADMIN') {
-			result = await Booking.find().limit(10);
+			const products = await Product.find();
+			let result;
+			if (req.user.role === 'ADMIN') {
+				result = await Booking.find().limit(10);
+			} else {
+				result = await Booking.find({ userId });
+			}
+			const data = { user: req.user, reports, bookings: result, products };
+			// Send the response
+			res.json(data);
 		} else {
-			result = await Booking.find({ userId });
-		}
-		const data = { user: req.user, reports, bookings: result, products };
-		// Send the response
-		res.json(data);
-	} catch (err) {
-		res.status(500).send(err.message);
-	}
-};
-export const getAdminDashboard = async (req, res) => {
-	try {
-		const totalreports = await Report.countDocuments();
-		const totalusers = await User.countDocuments();
-		const totalbookings = await Booking.countDocuments();
-		const reports = await Report.find().limit(10);
-		const users = await User.find().limit(10);
-		const products = await Product.find().limit(10);
-		const bookings = await Booking.find().limit(10);
+			const totalreports = await Report.countDocuments();
+			const totalUsers = await User.countDocuments();
+			const totalbookings = await Booking.countDocuments();
+			const totalProducts = await Product.countDocuments();
+			const totalOrders = await Order.countDocuments();
+			const reports = await Report.find().limit(10);
+			const users = await User.find().limit(10);
+			const products = await Product.find().limit(10);
+			const bookings = await Booking.find().limit(10);
 
-		const data = {
-			totalusers,
-			users,
-			totalreports,
-			reports,
-			totalbookings,
-			bookings,
-			products,
-		};
-		// Send the response
-		res.json(data);
+			const data = {
+				totalUsers,
+				users,
+				totalreports,
+				reports,
+				totalbookings,
+				bookings,
+				products,
+				totalProducts,
+				totalOrders,
+			};
+			// Send the response
+			res.json(data);
+		}
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
