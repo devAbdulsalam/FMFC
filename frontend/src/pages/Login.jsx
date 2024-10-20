@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/authContext';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import getError from './../hooks/getError';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { LocalStorage } from '../hooks/LocalStorage';
-import AuthContext from '../context/authContext';
 import Swal from 'sweetalert2';
 import logo from '../assets/logo.jpg';
 import bgImage from '../assets/img1.jpg';
@@ -20,7 +20,7 @@ const Login = () => {
 	console.log(user);
 	useEffect(() => {
 		if (user) {
-			navigate('/');
+			navigate('/dashboard');
 		}
 	}, [user, navigate]);
 

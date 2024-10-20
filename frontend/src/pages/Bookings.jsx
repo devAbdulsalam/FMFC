@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { Dialog, Transition } from '@headlessui/react';
 import getError from '../hooks/getError';
+import moment from 'moment';
 const Order = () => {
 	const { user, selectedProduct, setSelectedProduct } = useContext(AuthContext);
 	const queryClient = useQueryClient();
@@ -242,12 +243,6 @@ const Order = () => {
 										scope="col"
 										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
 									>
-										Ratings
-									</th>
-									<th
-										scope="col"
-										className="px-3 py-3 text-tiny text-text2 uppercase font-semibold w-[170px] text-end"
-									>
 										Status
 									</th>
 									<th
@@ -279,40 +274,29 @@ const Order = () => {
 													>
 														<img
 															className="w-[60px] h-[60px] rounded-md"
-															// src={highestPriceItem?.image?.url}
-															// alt={highestPriceItem?.name}
+															src={order?.fieldId?.image?.url}
+															alt={order?.fieldId?.name}
 														/>
 														<span className="font-medium text-heading text-hover-primary transition">
-															{order.name}
+															{order.fieldId?.name}
 														</span>
 													</Link>
-												</td>
-												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
-													#{order._id.slice(-6)}
 												</td>
 												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
 													{order?.days}
 												</td>
 												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
-													${order.startTime}
+													{moment(order?.startDate).format('YYYY-MM-DD')}
 												</td>
 												<td className="px-3 py-3 font-normal text-[#55585B] text-end">
-													${order?.endTime}
+													{moment(order?.endDate).format('YYYY-MM-DD')}
 												</td>
 												<td className="px-3 py-3 font-normal text-heading text-end">
-													<div className="flex justify-end items-center space-x-1 text-tiny">
-														<span className="text-yellow flex items-center space-x-1">
-															<i className="fa-solid fa-star"></i>
-															<i className="fa-solid fa-star"></i>
-															<i className="fa-solid fa-star"></i>
-															<i className="fa-solid fa-star"></i>
-															<i className="fa-solid fa-star"></i>
-														</span>
-													</div>
+													{order.amount}
 												</td>
 												<td className="px-3 py-3 text-end">
 													<span className="text-[11px]  text-success px-3 py-1 rounded-md leading-none bg-success/10 font-medium text-end">
-														{order.isDelivered}
+														{order.status}
 													</span>
 												</td>
 												<td className="px-9 py-3 text-end">

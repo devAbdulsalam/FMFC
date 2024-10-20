@@ -1,5 +1,6 @@
 import express from 'express';
 import Field from '../models/Field.js';
+import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 import { upload } from '../middlewares/multer.js';
 import { uploader } from '../utils/cloudinary.js';
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
-		const field = await Field.find({ _id: id });
+		const field = await Field.findById({ _id: id });
 		res.status(201).json(field);
 	} catch (error) {
 		res.status(500).json({ message: 'Error finding field', error });
@@ -98,37 +99,54 @@ router.put('/:fieldId/price', async (req, res) => {
 	}
 });
 
-// Book a field
-router.post('/:fieldId/book', async (req, res) => {
+router.post('/:fieldId/book', auth, async (req, res) => {
 	const { fieldId } = req.params;
-	const { date, startTime } = req.body;
+	const userId = req.user._id;
+	const { endDate, startDate } = req.body;
 
 	try {
 		const field = await Field.findById(fieldId);
 		if (!field) return res.status(404).json({ message: 'Field not found' });
 
-		// Find the correct date
-		const schedule = field.schedule.find(
-			(s) => s.date.toISOString().split('T')[0] === date
-		);
-		if (!schedule)
+		// Check if the field is already booked for overlapping dates
+		const overlappingBooking = await Booking.findOne({
+			fieldId,
+			$or: [{ startDate: { $lt: endDate }, endDate: { $gt: startDate } }],
+		});
+
+		if (overlappingBooking) {
 			return res
-				.status(404)
-				.json({ message: 'Schedule for this date not found' });
-
-		// Find the correct time slot
-		const timeSlot = schedule.timeSlots.find(
-			(slot) => slot.startTime === startTime
-		);
-		if (!timeSlot || timeSlot.isBooked) {
-			return res.status(400).json({ message: 'Time slot unavailable' });
+				.status(400)
+				.json({ message: 'Field is already booked for the selected dates' });
 		}
+		// Parse the startDate and endDate to ensure they're in the correct format (if necessary)
+		const start = new Date(startDate);
+		const end = new Date(endDate);
 
-		timeSlot.isBooked = true; // Mark the time slot as booked
-		await field.save();
-		res.status(200).json({ message: 'Field successfully booked', field });
+		// Calculate the total number of days (ensure time difference is calculated correctly)
+		const timeDiff = Math.abs(end.getTime() - start.getTime()); // difference in milliseconds
+		const totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); // convert ms to days
+
+		// Assuming field.pricePerHour refers to hourly rate and there are 24 hours in a day
+		const totalPrice = field.pricePerHour * 24 * totalDays;
+
+		// Create new booking
+		const newBooking = await Booking.create({
+			fieldId,
+			userId,
+			days: totalDays,
+			startDate,
+			endDate,
+			amount: totalPrice,
+		});
+		res
+			.status(200)
+			.json({ message: 'Field successfully booked', booking: newBooking });
 	} catch (error) {
-		res.status(500).json({ message: 'Error booking field', error });
+		console.error('Error booking field:', error);
+		res
+			.status(500)
+			.json({ message: 'Error booking field', error: error.message });
 	}
 });
 

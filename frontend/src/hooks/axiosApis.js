@@ -43,7 +43,7 @@ export const fetchFields = async (user) => {
 	try {
 		const config = {
 			headers: {
-				Authorization: `Bearer ${user?.token || user.accessToken}`,
+				Authorization: `Bearer ${user?.token || user?.accessToken}`,
 			},
 		};
 		const { data } = await axios.get(`${apiUrl}/fields`, config);

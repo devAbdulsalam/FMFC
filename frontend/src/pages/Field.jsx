@@ -69,10 +69,26 @@ const Field = () => {
 	};
 	const handleBookField = async () => {
 		try {
+			if (!fromDate || !toDate) {
+				return toast.error('Please select both start and end dates.');
+			}
+
+			const today = new Date();
+			const fromDateObj = new Date(fromDate);
+			const toDateObj = new Date(toDate);
+
+			// Ensure fromDate is in the future
+			if (fromDateObj < today) {
+				return toast.error('Please select a start date in the future.');
+			}
+			// Ensure toDate is after fromDate
+			if (toDateObj <= fromDateObj) {
+				return toast.error('The end date must be after the start date.');
+			}
 			setLoading(true);
-			const { data } = await axios.patch(
-				`${apiUrl}/fields/${id}`,
-				{ status: 'COMPLETED', fromDate, toDate },
+			const { data } = await axios.post(
+				`${apiUrl}/fields/${id}/book`,
+				{ status: 'COMPLETED', startDate: fromDate, endDate: toDate },
 				{
 					headers: {
 						Authorization: `Bearer ${user?.token || user?.accessToken}`,
@@ -112,8 +128,15 @@ const Field = () => {
 					</div>
 					<div className="bg-white shadow rounded-lg my-2 px-6 py-5 text-lg">
 						<div>
-							<div>
-								<CiLocationOn />
+							<div className="max-h-[300px] max-w-[300px] border mb-2">
+								<img
+									className="w-full object-cover"
+									src={data?.image?.url}
+									alt={data.name}
+								/>
+							</div>
+							<div className="flex items-center my-2">
+								<CiLocationOn className="font-bold text-3xl" />
 								<p className="text-black">Address: {data?.address}</p>
 							</div>
 							<div>
@@ -132,9 +155,7 @@ const Field = () => {
 									{data?.status}
 								</span>
 							</p>
-
-							<p>Feild Capacity: {data?.capacity}</p>
-							<p>price (phr): {data?.pricePerHour}</p>
+							<p>Field Capacity: {data?.capacity}</p>
 						</div>
 						{user?.user?.role === 'ADMIN' && data?.userId ? (
 							<div>
@@ -204,14 +225,14 @@ const Field = () => {
 											/>
 										</div>
 									</div>
-									<div>
-										<button
-											className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-											onClick={handleBookField}
-										>
-											Reserve Field
-										</button>
-									</div>
+								</div>
+								<div className="mt-4 w-full flex justify-center">
+									<button
+										className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+										onClick={handleBookField}
+									>
+										Reserve Field
+									</button>
 								</div>
 							</div>
 						)}

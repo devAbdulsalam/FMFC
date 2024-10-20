@@ -1,15 +1,5 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const Listing = () => {
-	const [listings, setListings] = useState([]);
-	useEffect(() => {
-		axios.get('/fields').then((response) => {
-			console.log('response.data', response.data);
-			setListings([...response.data]);
-		});
-	}, []);
+const Listing = (listings) => {	
 	return (
 		<section className="px-4 py-4">
 			<div className="flex justify-center mb-4">
@@ -44,6 +34,9 @@ const Listing = () => {
 								</h3>
 								<h2 className="text-sm truncate text-gray-500">
 									{listing.name}
+								</h2>
+								<h2 className="text-sm truncate text-gray-500">
+									{index + 1}
 								</h2>
 								<div className="mt-1">
 									<span className="font-bold">

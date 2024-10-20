@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import userRoutes from './routes/user.js';
 import fieldRoutes from './routes/field.js';
+import bookingRoutes from './routes/booking.js';
 import adminRoutes from './routes/admin.js';
 import orderRoutes from './routes/order.js';
 import reportRoutes from './routes/report.js';
@@ -26,6 +27,7 @@ app.use('/api/v1/fields', fieldRoutes);
 app.use('/api/v1/admins', adminRoutes);
 app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/reports', reportRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/payments', paymentRoutes);
 

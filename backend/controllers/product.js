@@ -1,4 +1,5 @@
 import Product from '../models/Product.js';
+import Category from '../models/Category.js';
 import User from '../models/User.js';
 import fs from 'fs';
 import { uploader } from '../utils/cloudinary.js';
@@ -35,10 +36,30 @@ export const searchProducts = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+export const createProductCategories = async (req, res) => {
+	try {
+		const category = await Category.create({...req.body});
+		res.status(200).json(category);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
 export const getProductCategories = async (req, res) => {
 	try {
-		const products = await Product.find().select('category');
-		res.status(200).json(products);
+		const categories = await Category.find();
+		res.status(200).json(categories);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+export const deleteCategory = async (req, res) => {
+	try {
+		const id = req.params.id
+		const category = await Category.findByIdAndDelete({ _id: id });
+		if (!category) {
+			return res.status(404).json({message: 'Invalid category id'})
+		}
+		res.status(200).json({message: 'category deleted',});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
@@ -69,7 +90,10 @@ export const createProduct = async (req, res) => {
 };
 export const updateProduct = async (req, res) => {
 	try {
-		const product = await Product.findByIdAndUpdate({_id: req.params.id}, {...req.body});
+		const product = await Product.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ ...req.body }
+		);
 		res.status(200).json(product);
 	} catch (error) {
 		res.status(500).json({ error: error.message });

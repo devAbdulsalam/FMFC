@@ -1,8 +1,9 @@
 import Booking from '../models/Booking.js';
+import Field from '../models/Field.js';
 import asyncHandler from 'express-async-handler';
 
 export const createBooking = async (req, res) => {
-	const { tripId, seat } = req.body;
+	const { fromDate, toDate, status } = req.body;
 
 	try {
 		const userId = req.user._id;
@@ -42,28 +43,24 @@ export const createBooking = async (req, res) => {
 	}
 };
 
-export const getbookings = async (req, res) => {
+export const getBookings = async (req, res) => {
 	try {
 		const userId = req.user._id;
 		let result;
 		if (req.user.role === 'ADMIN') {
-			result = await Booking.find();
+			result = await Booking.find().populate('fieldId userId');
 		} else {
-			result = await Booking.find({ userId });
+			result = await Booking.find({ userId }).populate('fieldId');
 		}
 		res.status(200).json(result);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
 };
-export const getbooking = async (req, res) => {
+export const getBooking = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const booking = await Booking.findById(id).populate({
-			path: 'userId',
-			select: 'email name phone rank',
-		});
-
+		const booking = await Booking.findById(id).populate('fieldId userId');
 		if (!booking) {
 			return res.status(404).json({ message: 'Booking not found' });
 		}
@@ -73,65 +70,15 @@ export const getbooking = async (req, res) => {
 	}
 };
 
-export const updateBooking = asyncHandler(async (req, res) => {
-	try {
-		const { id } = req.params;
-		const { seat } = req.body;
-
-		const booking = await Booking.findById(id);
-		if (!booking) {
-			return res.status(404).json({ message: 'Booking not found' });
-		}
-
-		// Check if the booking is already confirmed or completed
-		if (['CONFIRMED', 'COMPLETED'].includes(booking.status)) {
-			return res.status(400).json({
-				message: 'Cannot update an already confirmed or completed booking',
-			});
-		}
-
-		const trip = await Trip.findById(booking.tripId).populate('bus');
-		if (!trip) {
-			return res.status(404).json({ message: 'Trip not found' });
-		}
-
-		const bus = trip.bus;
-		const currentSeatsFilled = bus.seatsFilled;
-		const newSeatsFilled = currentSeatsFilled - booking.seat + seat;
-
-		if (newSeatsFilled > bus.seatCapacity) {
-			return res.status(400).json({
-				message: `Only ${
-					bus.seatCapacity - currentSeatsFilled + booking.seat
-				} seat(s) available, but ${seat} seat(s) requested.`,
-			});
-		}
-
-		// Update the booking
-		booking.seat = seat;
-		booking.price = Number(trip.price) * Number(seat);
-		await booking.save();
-
-		// Update bus seats filled
-		bus.seatsFilled = newSeatsFilled;
-		await bus.save();
-
-		res.status(200).json({
-			message: 'Booking updated successfully',
-			booking,
-		});
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
-});
-
 export const updateBookingStatus = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { status } = req.body;
-		const result = await Booking.findByIdAndUpdte(id, { status }).populate(
-			'userId'
-		);
+		const result = await Booking.findByIdAndUpdte(
+			id,
+			{ status },
+			{ new: true }
+		).populate('userId');
 		res.status(201).json(result);
 	} catch (error) {
 		res.status(500).json({ error: error.message });

@@ -94,7 +94,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./fields">
+							<Link to="/fields">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-success">
 									<svg
 										width="20"
@@ -175,7 +175,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./bookings">
+							<Link to="/bookings">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-purple">
 									<svg
 										width="20"
@@ -249,7 +249,7 @@ const Dashboard = () => {
 							</div>
 						</div>
 						<div>
-							<Link to="./users">
+							<Link to="/users">
 								<span className="text-lg text-white rounded-full flex items-center justify-center h-12 w-12 shrink-0 bg-info">
 									<svg
 										width="22"

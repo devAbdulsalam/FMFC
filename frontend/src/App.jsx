@@ -26,7 +26,6 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route element={<ProtectedRoutes />}>
 					<Route exact path="/" element={<DashboardLayout />}>
-						<Route path="/" element={<Dashboard />} />
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/fields" element={<Fields />} />
 						<Route path="/add-field" element={<AddField />} />

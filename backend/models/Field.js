@@ -25,26 +25,6 @@ const FieldSchema = new mongoose.Schema(
 				type: String,
 			},
 		},
-		schedule: [
-			{
-				date: { type: Date, required: true },
-				timeSlots: [
-					{
-						startTime: { type: String, required: true },
-						endTime: { type: String, required: true },
-						isBooked: { type: Boolean, default: false },
-					},
-				],
-			},
-		],
-		specialPricing: [
-			{
-				name: { type: String },
-				day: { type: String },
-				timeSlot: { type: String },
-				price: { type: Number },
-			},
-		],
 	},
 	{ timestamps: true }
 );
