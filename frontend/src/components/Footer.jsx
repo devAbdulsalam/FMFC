@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 // import LogoIcon from '../assets/icons/LogoIcon';
 const Footer = () => {
 	return (
-		<footer id="contact" className="text-white bg-slate-900 p-5">
+		<footer id="contact" className="text-white bg-green-700 p-5">
 			<div className="flex flex-col items-start md:flex-row gap-2 justify-between">
 				<div className="flex flex-col md:items-end md:flex-row gap-2">
 					<Link to="/" className="flex items-center gap-2">

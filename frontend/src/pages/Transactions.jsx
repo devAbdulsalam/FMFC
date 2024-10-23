@@ -37,7 +37,9 @@ const Transactions = () => {
 									className="bg-white shadow rounded-lg my-2 px-6 py-5 text-green-500"
 								>
 									<div className="flex justify-between items-center">
-										<p className=" font-semibold">{item?.name || 'Transactions'}</p>
+										<p className=" font-semibold">
+											{item?.name || 'Transactions'}
+										</p>
 										<p className=" font-semibold">{item?.email}</p>
 									</div>
 									<div className="flex justify-between items-center">

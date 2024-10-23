@@ -5,6 +5,7 @@ import Report from '../models/Report.js';
 import Product from '../models/Product.js';
 import Order from '../models/Order.js';
 import Booking from '../models/Booking.js';
+import Field from '../models/Field.js';
 import { createToken, createRefreshToken } from './../utils/tokens.js';
 
 export const registerUser = async (req, res) => {
@@ -151,14 +152,18 @@ export const getDashboard = async (req, res) => {
 			const totalbookings = await Booking.countDocuments();
 			const totalProducts = await Product.countDocuments();
 			const totalOrders = await Order.countDocuments();
+			const totalFields = await Field.countDocuments();
 			const reports = await Report.find().limit(10);
 			const users = await User.find().limit(10);
 			const products = await Product.find().limit(10);
 			const bookings = await Booking.find().limit(10);
+			const fields = await Field.find().limit(10);
 
 			const data = {
 				totalUsers,
+				totalFields,
 				users,
+				fields,
 				totalreports,
 				reports,
 				totalbookings,

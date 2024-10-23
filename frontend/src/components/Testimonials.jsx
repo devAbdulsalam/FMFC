@@ -12,7 +12,7 @@ const Testimonials = () => {
 				<h2 className="text-xl my-2 font-bold text-primary">Testimonials</h2>
 				<h3 className="text-lg">What Our Guests Say</h3>
 			</div>
-			<div className=" py-[50px] left-0 right-0 p-2 rounded bg-transparent  flex flex-row justify-center px-[20px] ">
+			<div className="py-[50px] left-0 right-0 p-2 rounded bg-transparent  flex flex-row justify-center px-[20px] ">
 				<div className="flex flex-col md:flex-row gap-[30px] justify-center">
 					<div
 						data-aos="zoom-in-up"

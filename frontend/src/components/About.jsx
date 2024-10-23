@@ -30,10 +30,10 @@ const Section = () => {
 							{/* <img src={sellImg} alt="" /> */}
 							<p>Reserve</p>
 						</div>
-						<h2 className="capitalize text-xl md:text-2xl ">Book a Room</h2>
+						<h2 className="capitalize text-xl md:text-2xl ">Book a Field</h2>
 						<p className="font-fonty text-[15px] md:text-[17px] ">
 							We have created seamless online experience. You can find all kinds
-							of house that is available for renting at the affordable price.
+							of fields that is available for renting at the affordable price.
 						</p>
 					</div>
 					<div
@@ -45,7 +45,7 @@ const Section = () => {
 							<p>Rent</p>
 						</div>
 						<h2 className="capitalize text-xl md:text-2xl ">
-							Rent an Apartment
+							Rent a field
 						</h2>
 						<p className="font-fonty text-[15px] md:text-[17px] ">
 							Find your dream home with an amazing photo experience and the most

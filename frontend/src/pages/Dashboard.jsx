@@ -6,6 +6,7 @@ import AuthContext from '../context/authContext';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
 import { Link } from 'react-router-dom';
+import RecentTransactions from './../components/Recent';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -57,7 +58,7 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{data?.totalbuses}
+								{data?.totalFields}
 								{/* 30 */}
 							</h4>
 							<p className="text-tiny leading-4">Fields</p>
@@ -220,7 +221,7 @@ const Dashboard = () => {
 					<div className="widget-item bg-white p-6 flex justify-between rounded-md">
 						<div>
 							<h4 className="text-xl font-semibold text-slate-700 mb-1 leading-none">
-								{data?.totalusers}
+								{data?.totalUsers}
 							</h4>
 							<p className="text-tiny leading-4">Users</p>
 							<div className="badge space-x-1 text-info bg-info/10">
@@ -306,6 +307,7 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
+				<RecentTransactions  />
 			</div>
 			{isLoading && <Loader />}
 		</>

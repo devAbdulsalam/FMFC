@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
-		const field = await Field.findById({ _id: id });
+		const field = await Field.findById({ _id: id }).populate('userId');
 		res.status(201).json(field);
 	} catch (error) {
 		res.status(500).json({ message: 'Error finding field', error });
@@ -99,6 +99,45 @@ router.put('/:fieldId/price', async (req, res) => {
 	}
 });
 
+router.post('/:fieldId/check-booking', auth, async (req, res) => {
+	const { fieldId } = req.params;
+	const userId = req.user._id;
+	const { endDate, startDate } = req.body;
+
+	try {
+		const field = await Field.findById(fieldId);
+		if (!field) return res.status(404).json({ message: 'Field not found' });
+
+		// Check if the field is already booked for overlapping dates
+		const overlappingBooking = await Booking.findOne({
+			fieldId,
+			$or: [{ startDate: { $lt: endDate }, endDate: { $gt: startDate } }],
+		});
+
+		if (overlappingBooking) {
+			return res
+				.status(400)
+				.json({ message: 'Field is already booked for the selected dates' });
+		}
+		// Parse the startDate and endDate to ensure they're in the correct format (if necessary)
+		const start = new Date(startDate);
+		const end = new Date(endDate);
+
+		// Calculate the total number of days (ensure time difference is calculated correctly)
+		const timeDiff = Math.abs(end.getTime() - start.getTime()); // difference in milliseconds
+		const totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); // convert ms to days
+
+		// Assuming field.pricePerHour refers to hourly rate and there are 24 hours in a day
+		const totalPrice = field.pricePerHour * 24 * totalDays;
+
+		res.status(200).json({ message: 'Field is available', totalPrice });
+	} catch (error) {
+		console.error('Error booking field:', error);
+		res
+			.status(500)
+			.json({ message: 'Error booking field', error: error.message });
+	}
+});
 router.post('/:fieldId/book', auth, async (req, res) => {
 	const { fieldId } = req.params;
 	const userId = req.user._id;

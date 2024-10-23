@@ -1,18 +1,18 @@
 import About from '../components/About';
 // import Header from '../components/Header';
-// import Rooms from '../components/Rooms';
+import Nav from '../components/Nav';
 import Listing from '../components/Listings';
 import Footer from '../components/Footer';
 import Testimonials from '../components/Testimonials';
 import { useQuery } from '@tanstack/react-query';
 import { fetchFields } from '../hooks/axiosApis';
-import {  useNavigate } from 'react-router-dom';
-import { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useContext, useState } from 'react';
 import AuthContext from '../context/authContext';
 
 export default function IndexPage() {
-	
 	const { user } = useContext(AuthContext);
+	const [fields, setFields] = useState([])
 	const navigate = useNavigate();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['dashboard'],
@@ -23,13 +23,19 @@ export default function IndexPage() {
 			navigate('/dashboard');
 		}
 	}, [user, navigate]);
+	useEffect(() => {
+		if (data) {
+			
+			setFields(data);
+		}
+	}, [data]);
 	return (
 		<>
-			{/* <Header /> */}
+			<Nav />
 			<About />
 			{/* <Rooms /> */}
 			<Testimonials />
-			<Listing listing={ data} />
+			<Listing listings={fields} />
 			<Footer />
 		</>
 	);
