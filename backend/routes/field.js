@@ -189,4 +189,15 @@ router.post('/:fieldId/book', auth, async (req, res) => {
 	}
 });
 
+
+router.delete('/:id', async (req, res) => {
+	const { id } = req.params;
+	try {
+		const field = await Field.findByIdAndDelete({ _id: id })
+		res.status(201).json(field);
+	} catch (error) {
+		res.status(500).json({ message: 'Error finding field', error });
+	}
+});
+
 export default router;

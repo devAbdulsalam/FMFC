@@ -3,9 +3,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import getError from './../hooks/getError';
-import { bgImage } from './../data';
+// import { bgImage } from './../data';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import Nav from '../components/Nav';
 
 const Register = () => {
 	const [name, setName] = useState('');
@@ -61,6 +62,7 @@ const Register = () => {
 	};
 	return (
 		<>
+			<Nav />
 			<div className="bg-gray-100 flex h-screen items-center justify-center p-4">
 				<div className="w-full max-w-lg mx-auto  bg-white rounded-lg shadow-md px-8 py-10 flex flex-col items-center">
 					<h1 className="text-xl font-bold text-center text-gray-700  mb-8">
@@ -159,9 +161,9 @@ const Register = () => {
 							<span className="text-sm text-gray-500 ">
 								Already have an account?{' '}
 							</span>
-							<a href="#" className="text-green-500 hover:text-green-600">
+							<Link to="/login" className="text-green-500 hover:text-green-600">
 								Login
-							</a>
+							</Link>
 						</div>
 					</form>
 				</div>

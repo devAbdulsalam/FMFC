@@ -9,6 +9,7 @@ import { fetchFields } from '../hooks/axiosApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
 import AuthContext from '../context/authContext';
+import Main from '../components/Main';
 
 export default function IndexPage() {
 	const { user } = useContext(AuthContext);
@@ -31,7 +32,8 @@ export default function IndexPage() {
 	}, [data]);
 	return (
 		<>
-			<Nav />
+			<Nav /> 
+			<Main /> 
 			<About />
 			{/* <Rooms /> */}
 			<Testimonials />

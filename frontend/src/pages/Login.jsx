@@ -7,6 +7,7 @@ import getError from './../hooks/getError';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { LocalStorage } from '../hooks/LocalStorage';
 import Swal from 'sweetalert2';
+import Nav from '../components/Nav';
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -58,6 +59,7 @@ const Login = () => {
 
 	return (
 		<>
+			<Nav/>
 			<div className="bg-gray-100 flex h-screen items-center justify-center p-4">
 				<div className="w-full max-w-md">
 					<div className="bg-white shadow-md rounded-md p-8">
@@ -134,7 +136,7 @@ const Login = () => {
 								</button>
 							</div>
 							<p className="text-center text-sm text-gray-500">
-								Don&#x27;t have an account yet? {' '}
+								Don&#x27;t have an account yet?{' '}
 								<Link
 									to="/register"
 									className="font-semibold text-gray-600 hover:underline focus:text-gray-800 focus:outline-none"

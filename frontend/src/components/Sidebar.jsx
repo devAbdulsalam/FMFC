@@ -66,8 +66,8 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 				<div className="h-full flex flex-col">
 					<div className="py-4 pb-8 px-8 border-b border-gray h-[78px] w-full flex justify-between items-center">
 						<NavLink to={'/'} className="w-[140px] flex items-center mx-auto">
-							<img className="mx-auto w-16 h-16" src={logo} alt="" />
-							{/* <h2>Tatabus</h2> */}
+							{/* <img className="mx-auto w-16 h-16" src={logo} alt="" /> */}
+							<h2 className="text-green-500">FMFC</h2>
 						</NavLink>
 						<button
 							type="button"

@@ -5,12 +5,12 @@ import { fetchDashboard } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RecentTransactions from './../components/Recent';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['dashboard'],
 		queryFn: async () => fetchDashboard(user),
@@ -19,7 +19,7 @@ const Dashboard = () => {
 		if (data) {
 			console.log(data);
 			// console.log(data?.recentOrders);
-			// navigate('/');/
+			// navigate('/');
 		}
 		if (error) {
 			console.log(error);
@@ -27,9 +27,9 @@ const Dashboard = () => {
 		}
 	}, [data, error]);
 
-	// const handleDelete = () => {
-	// 	// console.log(item);
-	// };
+	const handelAddModal = () => {
+		navigate('/');
+	};
 	// const handleEdit = (product) => {
 	// 	setSelectedProduct(product);
 	// 	navigate(`/products/${product._id}/edit`);
@@ -307,7 +307,7 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
-				<RecentTransactions  />
+				<RecentTransactions tableData={[]} handelAddModal={handelAddModal} />
 			</div>
 			{isLoading && <Loader />}
 		</>

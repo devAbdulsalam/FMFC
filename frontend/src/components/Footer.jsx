@@ -7,39 +7,25 @@ const Footer = () => {
 				<div className="flex flex-col md:items-end md:flex-row gap-2">
 					<Link to="/" className="flex items-center gap-2">
 						{/* <LogoIcon></LogoIcon> */}
-						<span className="font-bold text-xl text-primary">FMFC</span>
+						<span className="font-bold text-xl text-primary">FFMS</span>
 					</Link>
-				</div>
-			</div>
-			<div className="flex justify-around w-full">
-				<div className="flex flex-col">
-					<Link to="">Home</Link>
-					<Link to="">Rooms</Link>
-					<Link to="">About Us</Link>
-					<Link to="">Contact</Link>
-				</div>
-				<div className="flex flex-col">
-					<Link to="">Home</Link>
-					<Link to="">Rooms</Link>
-					<Link to="">About Us</Link>
-					<Link to="">Contact</Link>
 				</div>
 			</div>
 
 			<hr />
 
 			<div className="flex md:flex-row flex-col gap-3 items-center justify-around mt-[20px]">
-				<p className="flex flex-row items-center gap-1 text-slate-400 text-[12] md:text-[18px]">
+				<p className="flex flex-row items-center gap-1 text-slate-50 text-[12] md:text-[18px]">
 					Website built by{' '}
 					<a
-						className="uppercase font-bold text-slate-500 "
+						className="uppercase font-bold text-black "
 						href="https://devabdulsalam.vercel.com"
 					>
-						Abdulsalam
+						MUHAMMAD SHOUQI
 					</a>{' '}
 				</p>
 				<p className="md:text-[20px] text-[15px] text-slate-50">
-					&copy; StudioBnB 2023
+					&copy; FFMS 2024
 				</p>
 			</div>
 		</footer>

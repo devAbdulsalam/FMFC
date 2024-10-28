@@ -75,9 +75,6 @@ const Field = () => {
 			if (!id) {
 				return toast.error('Invalid field id');
 			}
-			if (id) {
-				return console.log('delete field', id);
-			}
 			setLoading(true);
 			const { data } = await axios.delete(`${apiUrl}/fields/${id}`, {
 				headers: {

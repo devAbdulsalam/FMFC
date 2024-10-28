@@ -5,12 +5,8 @@ import { FaPlus } from 'react-icons/fa6';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 
-const RecentTransactions = ({ orderTableData, handelAddModal }) => {
+const RecentTransactions = ({ tableData, handelAddModal }) => {
 	const navigate = useNavigate();
-	const [tableData, setTableData] = useState(orderTableData);
-	useEffect(() => {
-		setTableData(orderTableData);
-	}, [orderTableData]);
 
 	const handelClick = (item) => {
 		navigate(`/transactions/${item}`);
@@ -39,24 +35,17 @@ const RecentTransactions = ({ orderTableData, handelAddModal }) => {
 							<th className="py-3 pl-3 text-[#212B36] text-sm font-normal whitespace-nowrap rounded-l-lg">
 								Date
 							</th>
-
 							<th className="py-3 pl-1 text-[#212B36] text-sm font-normal whitespace-nowrap">
 								Customer
 							</th>
 							<th className="py-3 text-[#212B36] text-sm font-normal whitespace-nowrap">
-								Vehicle
+								Field
 							</th>
 							<th className="py-3 text-[#212B36] text-sm font-normal whitespace-nowrap">
-								Qunatity (kg)
-							</th>
-							<th className="py-3 px-2.5 text-[#212B36] text-sm font-normal whitespace-nowrap md:w-[100px]">
-								Credit ₦
+								Status
 							</th>
 							<th className="py-3 text-[#212B36] text-sm font-normal whitespace-nowrap md:w-[100px]">
-								Debit ₦
-							</th>
-							<th className="py-3 text-[#212B36] text-sm font-normal whitespace-nowrap md:w-[100px]">
-								Balance ₦
+								Price ₦
 							</th>
 						</tr>
 					</thead>
@@ -71,22 +60,16 @@ const RecentTransactions = ({ orderTableData, handelAddModal }) => {
 									{moment(data?.date || data?.createdAt).format('ll')}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#637381] uppercase whitespace-nowrap bg-gray-50">
-									{data?.name}
+									{data?.name?.slice(0, 15)}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#637381] whitespace-nowrap">
-									{data?.vehicleNumber?.slice(0, 15)}
-								</td>
-								<td className="py-2 px-1 text-sm font-normal text-[#637381] whitespace-nowrap">
-									{data?.quantity || ''}
-								</td>
-								<td className="py-2 px-1 text-sm font-normal text-[#4F80E1] whitespace-nowrap bg-gray-50 max-w-fit">
-									{data?.credit || ''}
+									{data?.field || ''}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#FB4949]  whitespace-nowrap max-w-fit">
-									{data?.debit || ''}
+									{data?.status || ''}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#10B860] whitespace-nowrap max-w-fit">
-									{data?.balance || ''}
+									{data?.price || ''}
 								</td>
 							</tr>
 						))}
