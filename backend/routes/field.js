@@ -148,6 +148,7 @@ router.post('/:fieldId/book', auth, async (req, res) => {
 		if (!field) return res.status(404).json({ message: 'Field not found' });
 
 		// Check if the field is already booked for overlapping dates
+		console.log('fieldId', fieldId);
 		const overlappingBooking = await Booking.findOne({
 			fieldId,
 			$or: [{ startDate: { $lt: endDate }, endDate: { $gt: startDate } }],
@@ -168,6 +169,10 @@ router.post('/:fieldId/book', auth, async (req, res) => {
 
 		// Assuming field.pricePerHour refers to hourly rate and there are 24 hours in a day
 		const totalPrice = field.pricePerHour * 24 * totalDays;
+
+		const admin = await User.findOne({ role: 'ADMIN' });
+		let userNotification = await Notification.create({userid: userId, title: 'New Booking', message: `You have a new booking for ${totalDays} days`, status: 'unread'});
+		let adminNotification = await Notification.create({userid: admin._id, title: 'New Booking', message: `A field has been booked for ${totalDays} days`, status: 'unread'});
 
 		// Create new booking
 		const newBooking = await Booking.create({

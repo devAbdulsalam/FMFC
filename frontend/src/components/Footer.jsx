@@ -18,7 +18,7 @@ const Footer = () => {
 				<p className="flex flex-row items-center gap-1 text-slate-50 text-[12] md:text-[18px]">
 					Website built by{' '}
 					<a
-						className="uppercase font-bold text-black "
+						className="uppercase font-bold "
 						href="https://devabdulsalam.vercel.com"
 					>
 						MUHAMMAD SHOUQI

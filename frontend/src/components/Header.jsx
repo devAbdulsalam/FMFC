@@ -6,7 +6,7 @@ import { LocalStorage } from '../hooks/LocalStorage';
 import AuthContext from '../context/authContext';
 import Search from '../components/Search';
 import userImage from '../assets/userImage.png';
-const Header = ({ sideMenu, setSideMenu }) => {
+const Header = ({ sideMenu, setSideMenu, notifications }) => {
 	const [searchOverlay, setSearchOverlay] = useState(false);
 	const [userOption, setUserOption] = useState(false);
 	const [notificationTable, setNotificationTable] = useState(false);
@@ -120,9 +120,11 @@ const Header = ({ sideMenu, setSideMenu }) => {
 										/>
 									</g>
 								</svg>
-								<span className="w-[20px] h-[20px] inline-block bg-danger rounded-full absolute -top-[4px] -right-[4px] border-[2px] border-white text-xs leading-[18px] font-medium text-white">
-									05
-								</span>
+								{notifications.length > 0 && (
+									<span className="w-[20px] h-[20px] inline-block bg-danger rounded-full absolute -top-[4px] -right-[4px] border-[2px] border-white text-xs leading-[18px] font-medium text-white">
+										{notifications.length}
+									</span>
+								)}
 							</button>
 							{notificationTable && (
 								<div
@@ -136,41 +138,49 @@ const Header = ({ sideMenu, setSideMenu }) => {
 									// x-transition:leave-end="opacity-0 scale-y-90"
 									className="absolute w-[280px] sm:w-[350px] max-h-[285px] overflow-y-auto overflow-item top-full -right-[60px] sm:right-0 shadow-lg rounded-md bg-white py-5 px-5"
 								>
-									<div className="flex items-center justify-between last:border-0 border-b border-gray pb-4 mb-4 last:pb-0 last:mb-0">
-										<div className="flex items-center space-x-3">
-											<div className="">
-												<img
-													className="w-[40px] h-[40px] rounded-md"
-													src="assets/img/product/prodcut-1.jpg"
-													alt="img"
-												/>
-											</div>
-											<div className="">
-												<h5 className="text-base mb-0 leading-none">
-													Green shirt for women
-												</h5>
-												<span className="text-tiny leading-none">
-													Jan 21, 2023 08:30 AM
-												</span>
-											</div>
-										</div>
-										<div className="">
-											<button className="hover:text-danger">
-												<svg
-													className="-translate-y-[3px]"
-													xmlns="http://www.w3.org/2000/svg"
-													viewBox="0 0 24 24"
-													width="16"
-													height="16"
+									{notifications.length > 0 &&
+										notifications.map((item, index) => {
+											return (
+												<div
+													key={item._id || index}
+													className="flex items-center justify-between last:border-0 border-b border-gray pb-4 mb-4 last:pb-0 last:mb-0"
 												>
-													<path
-														fill="currentColor"
-														d="M18,6h0a1,1,0,0,0-1.414,0L12,10.586,7.414,6A1,1,0,0,0,6,6H6A1,1,0,0,0,6,7.414L10.586,12,6,16.586A1,1,0,0,0,6,18H6a1,1,0,0,0,1.414,0L12,13.414,16.586,18A1,1,0,0,0,18,18h0a1,1,0,0,0,0-1.414L13.414,12,18,7.414A1,1,0,0,0,18,6Z"
-													/>
-												</svg>
-											</button>
-										</div>
-									</div>
+													<div className="flex items-center space-x-3">
+														<div className="">
+															<img
+																className="w-[40px] h-[40px] rounded-md"
+																src="assets/img/product/prodcut-1.jpg"
+																alt="img"
+															/>
+														</div>
+														<div className="">
+															<h5 className="text-base mb-0 leading-none">
+																{item.titel}
+															</h5>
+															<span className="text-tiny leading-none">
+																{item.message}
+															</span>
+														</div>
+													</div>
+													<div className="">
+														<button className="hover:text-danger">
+															<svg
+																className="-translate-y-[3px]"
+																xmlns="http://www.w3.org/2000/svg"
+																viewBox="0 0 24 24"
+																width="16"
+																height="16"
+															>
+																<path
+																	fill="currentColor"
+																	d="M18,6h0a1,1,0,0,0-1.414,0L12,10.586,7.414,6A1,1,0,0,0,6,6H6A1,1,0,0,0,6,7.414L10.586,12,6,16.586A1,1,0,0,0,6,18H6a1,1,0,0,0,1.414,0L12,13.414,16.586,18A1,1,0,0,0,18,18h0a1,1,0,0,0,0-1.414L13.414,12,18,7.414A1,1,0,0,0,18,6Z"
+																/>
+															</svg>
+														</button>
+													</div>
+												</div>
+											);
+										})}
 								</div>
 							)}
 						</div>

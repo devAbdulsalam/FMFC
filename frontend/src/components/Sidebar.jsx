@@ -6,11 +6,11 @@ import { LocalStorage } from '../hooks/LocalStorage';
 import AuthContext from '../context/authContext';
 // import logo from './../assets/img/icons/icon.png';
 
-import logo from '../assets/logo.jpg';
+import logo from '../assets/logo.jpeg';
 const Sidebar = ({ sideMenu, setSideMenu }) => {
 	const navigate = useNavigate();
 	const [nav, setNav] = useState(null);
-	const { setUser, setToken } = useContext(AuthContext);
+	const { user, setUser, setToken } = useContext(AuthContext);
 	const [isLogoutModal, setIsLogoutModal] = useState(false);
 	const handleNav = (number) => {
 		nav !== number ? setNav(number) : setNav(null);
@@ -30,7 +30,7 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 		navigate('/login');
 		setIsLogoutModal(false);
 	};
-
+	console.log('user', user)
 	useEffect(() => {
 		// Initial check on component mount
 		handleResize();
@@ -66,8 +66,8 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 				<div className="h-full flex flex-col">
 					<div className="py-4 pb-8 px-8 border-b border-gray h-[78px] w-full flex justify-between items-center">
 						<NavLink to={'/'} className="w-[140px] flex items-center mx-auto">
-							{/* <img className="mx-auto w-16 h-16" src={logo} alt="" /> */}
-							<h2 className="text-green-500">FMFC</h2>
+							<img className="mx-auto w-16 h-16" src={logo} alt="FMFC" />
+							{/* <h2 className="text-green-500">FMFC</h2> */}
 						</NavLink>
 						<button
 							type="button"
@@ -215,66 +215,75 @@ const Sidebar = ({ sideMenu, setSideMenu }) => {
 									</ul>
 								)}
 							</li>
-							<li className="">
-								<a
-									onClick={() => handleNav(5)}
-									className={`${
-										nav == 5
-											? 'bg-themeLight hover:bg-themeLight text-theme'
-											: ''
-									}
+							{user?.user?.role === 'ADMIN' &&
+								<li className="">
+									<a
+										onClick={() => handleNav(5)}
+										className={`${nav == 5
+												? 'bg-themeLight hover:bg-themeLight text-theme'
+												: ''
+											}
 									 group rounded-md relative text-black text-lg font-medium inline-flex items-center w-full transition-colors ease-in-out duration-300 px-5 py-[9px] mb-3 hover:bg-gray sidebar-NavLink-active`}
-								>
-									<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
-										<svg
-											className="-translate-y-[4px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="M12,16a4,4,0,1,1,4-4A4,4,0,0,1,12,16Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,12,10Zm6,13A6,6,0,0,0,6,23a1,1,0,0,0,2,0,4,4,0,0,1,8,0,1,1,0,0,0,2,0ZM18,8a4,4,0,1,1,4-4A4,4,0,0,1,18,8Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,18,2Zm6,13a6.006,6.006,0,0,0-6-6,1,1,0,0,0,0,2,4,4,0,0,1,4,4,1,1,0,0,0,2,0ZM6,8a4,4,0,1,1,4-4A4,4,0,0,1,6,8ZM6,2A2,2,0,1,0,8,4,2,2,0,0,0,6,2ZM2,15a4,4,0,0,1,4-4A1,1,0,0,0,6,9a6.006,6.006,0,0,0-6,6,1,1,0,0,0,2,0Z"
-											/>
-										</svg>
-									</span>
-									Users
-									<span
-										className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4  ${
-											nav == 5
-												? 'translate-y-[-10px] rotate-90'
-												: 'translate-y-[-10px]'
-										}`}
 									>
-										<svg
-											className="-translate-y-[5px]"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 24 24"
-											width="16"
-											height="16"
-										>
-											<path
-												fill="currentColor"
-												d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"
-											/>
-										</svg>
-									</span>
-								</a>
-								{nav === 5 && (
-									<ul className="pl-[42px] pr-[20px] pb-3">
-										<li>
-											<NavLink
-												to={'/users'}
-												onClick={handleSideBar}
-												className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+										<span className="inline-block translate-y-[1px] mr-[10px] text-xl">
+											<svg
+												className="-translate-y-[4px]"
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="16"
+												height="16"
 											>
-												Users List
-											</NavLink>
-										</li>
-									</ul>
-								)}
-							</li>
+												<path
+													fill="currentColor"
+													d="M12,16a4,4,0,1,1,4-4A4,4,0,0,1,12,16Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,12,10Zm6,13A6,6,0,0,0,6,23a1,1,0,0,0,2,0,4,4,0,0,1,8,0,1,1,0,0,0,2,0ZM18,8a4,4,0,1,1,4-4A4,4,0,0,1,18,8Zm0-6a2,2,0,1,0,2,2A2,2,0,0,0,18,2Zm6,13a6.006,6.006,0,0,0-6-6,1,1,0,0,0,0,2,4,4,0,0,1,4,4,1,1,0,0,0,2,0ZM6,8a4,4,0,1,1,4-4A4,4,0,0,1,6,8ZM6,2A2,2,0,1,0,8,4,2,2,0,0,0,6,2ZM2,15a4,4,0,0,1,4-4A1,1,0,0,0,6,9a6.006,6.006,0,0,0-6,6,1,1,0,0,0,2,0Z"
+												/>
+											</svg>
+										</span>
+										Users
+										<span
+											className={`absolute right-4 top-[52%] transition-transform duration-300 origin-center w-4 h-4  ${nav == 5
+													? 'translate-y-[-10px] rotate-90'
+													: 'translate-y-[-10px]'
+												}`}
+										>
+											<svg
+												className="-translate-y-[5px]"
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="16"
+												height="16"
+											>
+												<path
+													fill="currentColor"
+													d="M15.4,9.88,10.81,5.29a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42L14,11.29a1,1,0,0,1,0,1.42L9.4,17.29a1,1,0,0,0,1.41,1.42l4.59-4.59A3,3,0,0,0,15.4,9.88Z"
+												/>
+											</svg>
+										</span>
+									</a>
+									{nav === 5 && (
+										<ul className="pl-[42px] pr-[20px] pb-3">
+											<li>
+												<NavLink
+													to={'/users'}
+													onClick={handleSideBar}
+													className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+												>
+													Users List
+												</NavLink>
+											</li>
+											<li>
+												<NavLink
+													to={'/staffs'}
+													onClick={handleSideBar}
+													className="block font-normal w-full text-[#6D6F71] hover:text-theme nav-dot"
+												>
+													Staffs
+												</NavLink>
+											</li>
+										</ul>
+									)}
+								</li>
+							}
 							<li>
 								<a
 									onClick={() => handleNav(6)}

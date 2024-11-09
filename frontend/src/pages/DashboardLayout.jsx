@@ -1,9 +1,18 @@
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+
+import { useContext, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchNotifications } from '../hooks/axiosApis';
+import AuthContext from '../context/authContext';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 const DashboardLayout = () => {
 	const [sideMenu, setSideMenu] = useState(null);
+	const { user } = useContext(AuthContext);
+	const { data } = useQuery({
+		queryKey: ['notification'],
+		queryFn: async () => fetchNotifications(user),
+	});
 	return (
 		<div className="tp-main-wrapper bg-slate-100 h-screen relative">
 			<Sidebar sideMenu={sideMenu} setSideMenu={setSideMenu} />
@@ -18,7 +27,7 @@ const DashboardLayout = () => {
 			</div>
 
 			<div className="tp-main-content lg:ml-[250px] xl:ml-[300px] w-[calc(100% - 300px)]">
-				<Header sideMenu={sideMenu} setSideMenu={setSideMenu} />
+				<Header sideMenu={sideMenu} setSideMenu={setSideMenu} notifications={data || []} />
 				<Outlet />
 			</div>
 		</div>

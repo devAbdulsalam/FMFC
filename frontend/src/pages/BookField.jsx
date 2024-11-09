@@ -7,13 +7,13 @@ import getError from './../hooks/getError';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
-// import  from 'moment';
+import DateTimePicker from 'react-datetime-picker';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const BookField = () => {
 	const { user } = useContext(AuthContext);
-	const [fromDate, setFromDate] = useState('');
-	const [toDate, setToDate] = useState('');
+	const [fromDate, setFromDate] = useState(new Date());
+	const [toDate, setToDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
 	const [customerFullName, setCustomerFullName] = useState('John Doe');
 	const [customerEmail, setCustomerEmail] = useState('johndoe@example.com');
@@ -45,7 +45,6 @@ const BookField = () => {
 	const apiUrl = import.meta.env.VITE_API_URL;
 	const handlePayment = async (response) => {
 		try {
-			
 			setLoading(true);
 			const { data } = await axios.post(
 				`${apiUrl}/fields/${id}/book`,
@@ -131,7 +130,7 @@ const BookField = () => {
 					<div className="page-title mb-7">
 						<h3 className="mb-0 text-4xl">Book Field</h3>
 					</div>
-					<div className="bg-white border my-2 px-6 py-5 mt-10 rounded-md shadow-lg w-full md:max-w-md">
+					<div className="bg-white border my-2 px-6 py-5 mt-10 rounded-md shadow-lg w-full md:max-w-2xl">
 						<div>
 							<span className="font-semibold text-lg">
 								&#8358;{data.pricePerHour}
@@ -145,7 +144,7 @@ const BookField = () => {
 									<input
 										id="from"
 										name="from"
-										type="date"
+										type="datetime-local"
 										className="w-full"
 										value={fromDate}
 										onChange={(e) => setFromDate(e.target.value)}
@@ -154,7 +153,7 @@ const BookField = () => {
 								<div className="py-3 md:px-4 md:border-l">
 									<label htmlFor="to">To</label>
 									<input
-										type="date"
+										type="datetime-local"
 										id="to"
 										name="to"
 										className="w-full"

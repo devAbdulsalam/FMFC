@@ -11,6 +11,7 @@ import orderRoutes from './routes/order.js';
 import reportRoutes from './routes/report.js';
 import productRoutes from './routes/product.js';
 import paymentRoutes from './routes/payment.js';
+import notificationRoutes from './routes/notification.js';
 import healthRoutes from './routes/health.js';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/v1/reports', reportRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
 
 const PORT = process.env.PORT || 5000;
 

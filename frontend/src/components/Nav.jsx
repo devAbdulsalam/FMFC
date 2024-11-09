@@ -5,13 +5,15 @@ import { Link } from 'react-router-dom';
 function Nav() {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
-		<nav className="bg-green-800">
+		<nav className="md:bg-green-800">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center justify-between h-16">
 					<div className="flex items-center">
 						<div className="flex-shrink-0">
 							<a href="./">
-								<h2 className="text-white font-bold text-lg">FMFC</h2>
+								<h2 className="md:text-white text-green-800 font-bold text-lg">
+									FMFC
+								</h2>
 							</a>
 							{/* <img
 									className="h-8 w-8"

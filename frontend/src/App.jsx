@@ -17,6 +17,8 @@ import Users from './pages/Users';
 import Transactions from './pages/Transactions';
 import AddFieldSchedule from './pages/AddFieldSchedule';
 import DashboardLayout from './pages/DashboardLayout';
+import Profile from './pages/Profile';
+import Staff from './pages/Staff';
 function App() {
 	return (
 		<Routes>
@@ -39,8 +41,10 @@ function App() {
 						<Route path="/booking" element={<Booking />} />
 						<Route path="/add-staff" element={<AddStaff />} />
 						<Route path="/users" element={<Users />} />
+						<Route path="/staffs" element={<Staff />} />
 						<Route path="/booking" element={<Booking />} />
 						<Route path="/transactions" element={<Transactions />} />
+						<Route path="/profile" element={<Profile />} />
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFound />} />

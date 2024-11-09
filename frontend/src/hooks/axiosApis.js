@@ -39,6 +39,24 @@ export const fetchDashboard = async (user) => {
 		return error;
 	}
 };
+export const fetchNotifications = async (user) => {
+	try {
+		const config = {
+			headers: {
+				Authorization: `Bearer ${user?.token || user.accessToken}`,
+			},
+		};
+		console.log();
+		const { data } = await axios.get(
+			`${apiUrl}/notifications`,
+			config
+		);
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return error;
+	}
+};
 export const fetchFields = async (user) => {
 	try {
 		const config = {

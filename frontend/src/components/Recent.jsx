@@ -60,16 +60,18 @@ const RecentTransactions = ({ tableData, handelAddModal }) => {
 									{moment(data?.date || data?.createdAt).format('ll')}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#637381] uppercase whitespace-nowrap bg-gray-50">
-									{data?.name?.slice(0, 15)}
+									{data?.userId?.name?.slice(0, 15)}
 								</td>
 								<td className="py-2 px-1 text-sm font-normal text-[#637381] whitespace-nowrap">
-									{data?.field || ''}
+									{data?.fielId?.field || ''}
 								</td>
-								<td className="py-2 px-1 text-sm font-normal text-[#FB4949]  whitespace-nowrap max-w-fit">
+								<td
+									className={`text-[#10B860] md:text-[#FB4949] py-2 px-1 text-sm font-normal  whitespace-nowrap max-w-fit`}
+								>
 									{data?.status || ''}
 								</td>
-								<td className="py-2 px-1 text-sm font-normal text-[#10B860] whitespace-nowrap max-w-fit">
-									{data?.price || ''}
+								<td className="py-2 px-1 text-sm font-normal text-[#637381] whitespace-nowrap max-w-fit">
+									{data?.amount || ''}
 								</td>
 							</tr>
 						))}

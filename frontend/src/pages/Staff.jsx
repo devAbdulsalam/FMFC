@@ -26,7 +26,7 @@ const Users = () => {
 			) : (
 				<main className="body-content px-8 py-8 bg-slate-100">
 					<div className="page-title mb-7">
-						<h3 className="mb-0 text-4xl">Users</h3>
+						<h3 className="mb-0 text-4xl">Staffs</h3>
 					</div>
 					{data?.length > 0 &&
 						data?.map((item) => {
@@ -43,7 +43,7 @@ const Users = () => {
 									</div>
 									<div className="flex justify-between items-center">
 										<p className="">{item?.phone}</p>
-										<p className=" font-semibold">{item?.role}</p>
+										<p className=" font-semibold">{item?.rank}</p>
 									</div>
 								</div>
 							);

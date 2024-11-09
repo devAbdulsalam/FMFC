@@ -307,7 +307,7 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
-				<RecentTransactions tableData={[]} handelAddModal={handelAddModal} />
+				<RecentTransactions tableData={data?.bookings ||[]} handelAddModal={handelAddModal} />
 			</div>
 			{isLoading && <Loader />}
 		</>
