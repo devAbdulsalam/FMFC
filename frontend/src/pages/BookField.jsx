@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import Loader from '../components/Loader';
+import ConfirmBooking from '../components/ConfirmBooking';
 import { fetchField } from '../hooks/axiosApis';
 import AuthContext from '../context/authContext';
 import { useQuery } from '@tanstack/react-query';
@@ -7,7 +8,6 @@ import getError from './../hooks/getError';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
-import DateTimePicker from 'react-datetime-picker';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const BookField = () => {
@@ -15,6 +15,7 @@ const BookField = () => {
 	const [fromDate, setFromDate] = useState(new Date());
 	const [toDate, setToDate] = useState(new Date());
 	const [loading, setLoading] = useState(false);
+	const [isModal, setIsModal] = useState(false);
 	const [customerFullName, setCustomerFullName] = useState('John Doe');
 	const [customerEmail, setCustomerEmail] = useState('johndoe@example.com');
 	const [customerMobileNumber, setCustomerMobileNumber] =
@@ -43,6 +44,54 @@ const BookField = () => {
 
 	// Handling the booking button click
 	const apiUrl = import.meta.env.VITE_API_URL;
+	const handleCheckBooking = async () => {
+		try {
+			if (!fromDate || !toDate) {
+				return toast.error('Please select both start and end dates.');
+			}
+
+			const today = new Date();
+			const fromDateObj = new Date(fromDate);
+			const toDateObj = new Date(toDate);
+
+			// Ensure fromDate is in the future
+			if (fromDateObj < today) {
+				return toast.error('Please select a start date in the future.');
+			}
+			// Ensure toDate is after fromDate
+			if (toDateObj <= fromDateObj) {
+				return toast.error('The end date must be after the start date.');
+			}
+			setLoading(true);
+			const { data } = await axios.post(
+				`${apiUrl}/fields/${id}/check-booking`,
+				{ status: 'COMPLETED', startDate: fromDate, endDate: toDate },
+				{
+					headers: {
+						Authorization: `Bearer ${user?.token || user?.accessToken}`,
+					},
+				}
+			);
+			if (data) {
+				console.log('data', data?.totalPrice);
+				setAmount(data?.totalPrice);
+				setIsModal(true);
+			}
+			setLoading(false);
+		} catch (error) {
+			// const message = error?.data || 'Something went wrong!';
+			setLoading(false);
+			console.log('Error booking Field', error);
+			const message = getError(error);
+			return Swal.fire({
+				title: 'Error!',
+				icon: 'error',
+				text: message,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+			});
+		}
+	};
 	const handlePayment = async (response) => {
 		try {
 			setLoading(true);
@@ -76,22 +125,7 @@ const BookField = () => {
 		}
 	};
 	const payWithMonnify = async () => {
-		if (!fromDate || !toDate) {
-			return toast.error('Please select both start and end dates.');
-		}
-
-		const today = new Date();
-		const fromDateObj = new Date(fromDate);
-		const toDateObj = new Date(toDate);
-
-		// Ensure fromDate is in the future
-		if (fromDateObj < today) {
-			return toast.error('Please select a start date in the future.');
-		}
-		// Ensure toDate is after fromDate
-		if (toDateObj <= fromDateObj) {
-			return toast.error('The end date must be after the start date.');
-		}
+		setIsModal(false);
 		window.MonnifySDK.initialize({
 			amount,
 			currency: 'NGN',
@@ -166,13 +200,21 @@ const BookField = () => {
 						<div className="mt-4 w-full flex justify-center">
 							<button
 								className="w-full max-w-[300px] mx-auto px-4 py-2 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-								onClick={payWithMonnify}
+								onClick={handleCheckBooking}
 							>
 								Reserve Field
 							</button>
 						</div>
 					</div>
 				</main>
+			)}
+			{isModal && (
+				<ConfirmBooking
+					amount={amount}
+					setShow={setIsModal}
+					show={isModal}
+					handleBooking={payWithMonnify}
+				/>
 			)}
 		</>
 	);
